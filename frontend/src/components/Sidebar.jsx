@@ -1,11 +1,12 @@
 import React from 'react';
-import { BarChart3, Users } from 'lucide-react';
+import { BarChart3, Users, FileText } from 'lucide-react';
 import '../css/Sidebar.css';
 
-const Sidebar = ({ currentPage, setCurrentPage }) => {
+const Sidebar = ({ currentPage, onPageChange }) => {
   const sidebarItems = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-    { id: 'interviews', label: 'Interviews', icon: Users }
+    { id: 'interviews', label: 'Interviews', icon: Users },
+    { id: 'resume-analysis', label: 'Resume Analysis', icon: FileText }
   ];
 
   return (
@@ -19,7 +20,7 @@ const Sidebar = ({ currentPage, setCurrentPage }) => {
           return (
             <button
               key={item.id}
-              onClick={() => setCurrentPage(item.id)}
+              onClick={() => onPageChange(item.id)}
               className={`sidebar-button ${
                 currentPage === item.id ? 'active' : ''
               }`}

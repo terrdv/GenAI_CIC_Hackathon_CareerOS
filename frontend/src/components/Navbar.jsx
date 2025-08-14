@@ -8,6 +8,8 @@ const Navbar = ({ currentPage }) => {
         return 'Dashboard';
       case 'interviews':
         return 'Interviews';
+      case 'resume-analysis':
+        return 'Resume Analysis';
       default:
         return 'Dashboard';
     }
