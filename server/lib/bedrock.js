@@ -7,25 +7,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 /**
- * @typedef {Object} ResponseContent
- * @property {string} text
- *
- * @typedef {Object} MessagesResponseBody
- * @property {ResponseContent[]} content
- *
- * @typedef {Object} Delta
- * @property {string} text
- *
- * @typedef {Object} Message
- * @property {string} role
- *
- * @typedef {Object} Chunk
- * @property {string} type
- * @property {Delta} delta
- * @property {Message} message
- */
-
-/**
  * Invokes Anthropic Claude 3 using the Messages API.
  *
  * To learn more about the Anthropic Messages API, go to:
@@ -36,7 +17,7 @@ dotenv.config();
  */
 export const invokeModel = async (
     prompt,
-    data,
+    pdfData,
     modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
 ) => {
     // Create a new Bedrock Runtime client instance.
@@ -59,7 +40,18 @@ export const invokeModel = async (
         messages: [
             {
                 role: "user",
-                content: [{ text: prompt }],
+                content: [{ 
+                    text: prompt,
+                },
+                {
+                    document: {
+                        format: 'pdf',
+                        name: 'resume',
+                        source: {
+                            bytes: pdfData
+                        }
+                    }
+                }],
             },
         ]
     };
