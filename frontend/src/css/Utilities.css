@@ -1,0 +1,15 @@
+.max-w-2xl { max-width: 42rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.pr-12 { padding-right: 3rem; }
+.w-full { width: 100%; }
+.mt-10 { margin-top: 2.5rem; }
+.uppercase { text-transform: uppercase; }
+.tracking-wide { letter-spacing: 0.05em; }
+.text-xs { font-size: 0.75rem; }
+.inline-flex { display: inline-flex; }
+.items-center { align-items: center; }
+.gap-2 { gap: 0.5rem; }
+.select-none { user-select: none; }
+.rounded { border-radius: 0.25rem; }
+.border-gray-300 { border: 1px solid #d1d5db; }
+.text-gray-600 { color: #4b5563; }

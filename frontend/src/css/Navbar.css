@@ -1,0 +1,81 @@
+.navbar {
+    background:rgba(255,255,255,0.75);
+    border-bottom:1px solid #e5e7eb;
+    box-shadow:0 1px 2px rgba(0,0,0,0.03);
+    padding:1rem 2rem;
+    min-height:4rem;
+    position:relative;
+    display:flex;
+    align-items:center;
+    backdrop-filter:blur(12px);
+    overflow:hidden;
+}
+.navbar::after {
+    content:"";
+    position:absolute;
+    left:0; bottom:0;
+    height:3px; width:100%;
+    background:linear-gradient(90deg,#6366f1,#0ea5e9,#6366f1);
+    background-size:180% 100%;
+    animation:navBarFlow 9s linear infinite;
+}
+@keyframes navBarFlow {
+    0% { background-position:0% 50%; }
+    100% { background-position:180% 50%; }
+}
+.navbar-inner { display:flex; align-items:center; width:100%; }
+.navbar-title {
+    font-size:1.25rem;
+    font-weight:600;
+    margin:0;
+    background:linear-gradient(90deg,#1e293b,#334155);
+    -webkit-background-clip:text;
+    color:transparent;
+    position:relative;
+    padding-right:1rem;
+}
+.navbar-title::after {
+    content:"";
+    position:absolute;
+    left:0; bottom:-6px;
+    width:42%; height:2px;
+    background:var(--grad-primary, linear-gradient(135deg,#6366f1,#2563eb,#0ea5e9));
+    border-radius:2px;
+    animation:titlePulse 3.6s ease-in-out infinite;
+}
+@keyframes titlePulse {
+    0%,100% { transform:scaleX(.6); opacity:.55; }
+    50% { transform:scaleX(1); opacity:1; }
+}
+.nav-login-btn {
+    position:absolute;
+    top:50%; right:1.5rem;
+    transform:translateY(-50%);
+    background:linear-gradient(110deg,#6366f1 0%,#2563eb 55%,#0ea5e9 100%);
+    color:#fff;
+    font-weight:600;
+    padding:.6rem 1.15rem;
+    font-size:.8rem;
+    border:none;
+    border-radius:.55rem;
+    letter-spacing:.4px;
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    box-shadow:0 4px 18px -4px rgba(37,99,235,.55),0 2px 6px rgba(0,0,0,.18);
+    cursor:pointer;
+    transition:transform .25s, filter .25s;
+}
+.nav-login-btn:hover {
+    filter:brightness(1.06);
+    transform:translate(-1px,-53%) scale(1.04);
+}
+.nav-login-btn:active {
+    transform:translate(0,-50%) scale(.97);
+    filter:brightness(.95);
+}
+@media (max-width:768px){
+    .navbar { padding:.75rem 1rem; }
+    .nav-login-btn { right:1rem; }
+    .navbar-title { font-size:1.125rem; }
+}
