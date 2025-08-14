@@ -71,4 +71,5 @@ router.get('/report/:sessionId', getReport); // after all questions are done
 
 router.get('/fullsession/:sessionId', fullSessionHandler);
 router.get('/current', currentQuestion);
+router.get('/testing', testing)
 export default router;
