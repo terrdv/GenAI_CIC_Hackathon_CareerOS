@@ -12,7 +12,7 @@ const Sidebar = ({ currentPage, onPageChange }) => {
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <h1>CareerOS</h1>
+                <h1>careerOS</h1>
             </div>
             <nav className="sidebar-nav">
                 {sidebarItems.map(item => {

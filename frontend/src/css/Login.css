@@ -65,7 +65,7 @@
 .primary-btn:active { transform:translateY(0); filter:brightness(.96); }
 
 .action-btn {
-    background:linear-gradient(90deg,#6366f1,#2563eb);
+    background:linear-gradient(90deg,#403F3FFF, #403f3f);
     color:#fff;
     font-weight:600;
     padding:.6rem 1rem;
