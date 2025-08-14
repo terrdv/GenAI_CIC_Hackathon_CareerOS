@@ -7,16 +7,11 @@ const Navbar = ({ currentPage }) => {
 
     const getPageTitle = (page) => {
         switch (page) {
-            case 'dashboard':
-                return 'Dashboard';
-            case 'interviews':
-                return 'Interviews';
-            case 'resume-analysis':
-                return 'Resume Analysis';
-            case 'login':
-                return 'Account';
-            default:
-                return 'Dashboard';
+            case 'dashboard': return 'Dashboard';
+            case 'interviews': return 'Interviews';
+            case 'resume-analysis': return 'Resume Analysis';
+            case 'login': return 'Account';
+            default: return 'Dashboard';
         }
     };
 

@@ -1,0 +1,24 @@
+:root {
+    --grad-primary: linear-gradient(135deg,#6366f1 0%,#2563eb 50%,#0ea5e9 100%);
+    --grad-surface: linear-gradient(145deg,#ffffff 0%,#f1f5f9 100%);
+    --ring-glow: 0 0 0 3px rgba(99,102,241,.25);
+    --card-shadow: 0 8px 24px -6px rgba(30,41,59,.15),0 2px 6px rgba(0,0,0,.08);
+    --focus-shadow: 0 6px 18px -4px rgba(99,102,241,.45);
+    --ease-spring: cubic-bezier(.16,.84,.44,1);
+}
+
+.max-w-2xl { max-width:42rem; }
+.mx-auto { margin-left:auto; margin-right:auto; }
+.pr-12 { padding-right:3rem; }
+.w-full { width:100%; }
+.mt-10 { margin-top:2.5rem; }
+.uppercase { text-transform:uppercase; }
+.tracking-wide { letter-spacing:.05em; }
+.text-xs { font-size:.75rem; }
+.inline-flex { display:inline-flex; }
+.items-center { align-items:center; }
+.gap-2 { gap:.5rem; }
+.select-none { user-select:none; }
+.rounded { border-radius:.25rem; }
+.border-gray-300 { border:1px solid #d1d5db; }
+.text-gray-600 { color:#4b5563; }

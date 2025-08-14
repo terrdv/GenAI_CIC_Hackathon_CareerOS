@@ -24,7 +24,7 @@ export default function Login() {
     const heading = mode === 'login' ? 'Log In' : 'Create Account';
 
     return (
-        <div className="dashboard-container max-w-2xl mx-auto">
+        <div className="dashboard-container max-w-2xl mx-auto fade-in">
             <div className="auth-card animate-pop">
                 <h2 className="auth-heading">{heading}</h2>
 
