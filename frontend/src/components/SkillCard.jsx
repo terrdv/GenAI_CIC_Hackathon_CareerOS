@@ -1,7 +1,8 @@
 import React from 'react';
+import { Code, Database } from 'lucide-react';
 
 const SkillCard = ({ skill, index, animateCards }) => {
-  const IconComponent = skill.icon;
+  const IconComponent = Code;
   
   return (
     <div 
@@ -10,7 +11,7 @@ const SkillCard = ({ skill, index, animateCards }) => {
       style={{ animationDelay: `${400 + index * 100}ms` }}
     >
       <div className="skill-header">
-        <div className={`skill-icon ${skill.color}`}>
+        <div className={`skill-icon blue`}>
           <IconComponent size={20} />
         </div>
         <div className="skill-info">

@@ -6,7 +6,7 @@ const router = Router();
 
 
 // POST /analyzeResume: expects { session_token } in body
-router.get('/analyzeResume', async (req, res) => {
+router.post('/analyzeResume', async (req, res) => {
     try {
         const { session_token } = req.body;
         if (!session_token) return res.status(400).json({ error: 'Missing session_token' });
@@ -33,8 +33,35 @@ router.get('/analyzeResume', async (req, res) => {
         const arrayBuffer = Buffer.from(await pdfBlob.arrayBuffer());
 
         // Get AI feedback from invokeModel
-        const feedback = await invokeModel('Provide feedback for my resume. Be specific and reference examples from the resume file.', arrayBuffer);
-        res.json({ feedback });
+        const feedback = await invokeModel('Provide feedback for my resume. Be specific and reference examples from the resume file. Format the response as HTML.', arrayBuffer);
+
+        const skillsJson = await invokeModel('Extract the skills mentioned in the resume. Format it as a stringified JSON array that is immediately parseable, don\'t add extra text.', arrayBuffer);
+        const jobsJson = await invokeModel('Extract the jobs that I am most competitive for based on the resume. Format it as a stringified JSON array that is immediately parseable, don\'t add extra text.', arrayBuffer);
+
+        let skills, jobs;
+        try {
+            skills = JSON.parse(skillsJson.replaceAll('\'', '\"'));
+        } catch (e) {
+            skills = null;
+        }
+        try {
+            jobs = JSON.parse(jobsJson.replaceAll('\'', '\"'));
+        } catch (e) {
+            jobs = null;
+        }
+
+        console.log(skillsJson, jobsJson);
+
+        // Update jobs and skills columns in public.profiles
+        const { error: updateError } = await supabase
+            .from('profiles')
+            .update({ jobs, skills })
+            .eq('id', userId);
+        if (updateError) {
+            return res.status(500).json({ error: updateError.message });
+        }
+
+        res.json({ feedback, jobs, skills });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
