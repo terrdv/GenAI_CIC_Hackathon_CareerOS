@@ -2,46 +2,64 @@ import React, { useState } from 'react';
 
 function ResumeAnalysis() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [analysisResult, setAnalysisResult] = useState(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState('');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    setAnalysisResult(null);
+    setUploadStatus('');
   };
 
-  const handleAnalyze = () => {
-    if (!selectedFile) return;
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      setUploadStatus('Please select a file first');
+      return;
+    }
     
-    setIsAnalyzing(true);
+    setIsUploading(true);
+    setUploadStatus('Uploading...');
     
-    // Simulate analysis process
-    setTimeout(() => {
-      const mockResult = {
-        skills: ['JavaScript', 'React', 'Node.js', 'Python', 'SQL', 'Git'],
-        experience: '3-5 years',
-        education: 'Bachelor\'s Degree',
-        strengths: ['Strong technical skills', 'Good project experience', 'Clear communication'],
-        areas: ['Could add more leadership experience', 'Consider adding certifications'],
-        score: 85
-      };
+    try {
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('resume', selectedFile);
       
-      setAnalysisResult(mockResult);
-      setIsAnalyzing(false);
-    }, 2000);
+      // Here you would make the actual API call to your backend
+      // const response = await fetch('/api/resume/upload', {
+      //   method: 'POST',
+      //   body: formData
+      // });
+      
+      // For now, simulate the upload
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setUploadStatus('File uploaded successfully!');
+      setSelectedFile(null);
+      
+      // Reset file input
+      const fileInput = document.getElementById('resume-upload');
+      if (fileInput) fileInput.value = '';
+      
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      setUploadStatus('Upload failed. Please try again.');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
-  const getScoreColor = (score) => {
-    if (score >= 80) return '#10b981'; // green
-    if (score >= 60) return '#f59e0b'; // yellow
-    return '#ef4444'; // red
+  const resetUpload = () => {
+    setSelectedFile(null);
+    setUploadStatus('');
+    const fileInput = document.getElementById('resume-upload');
+    if (fileInput) fileInput.value = '';
   };
 
   return (
     <div className="resume-analysis-container">
-      <h1>Resume Analysis</h1>
-      <p className="subtitle">Upload your resume to get AI-powered insights and recommendations</p>
+      <h1>Resume Upload</h1>
+      <p className="subtitle">Upload your resume to get started</p>
       
       <div className="upload-section">
         <div className="file-upload-area">
@@ -61,75 +79,41 @@ function ResumeAnalysis() {
           </label>
         </div>
         
-        <button 
-          onClick={handleAnalyze}
-          disabled={!selectedFile || isAnalyzing}
-          className="analyze-button"
-        >
-          {isAnalyzing ? 'Analyzing...' : 'Analyze Resume'}
-        </button>
-      </div>
-
-      {isAnalyzing && (
-        <div className="loading-section">
-          <div className="loading-spinner"></div>
-          <p>Analyzing your resume...</p>
-        </div>
-      )}
-
-      {analysisResult && (
-        <div className="analysis-results">
-          <div className="score-section">
-            <h2>Overall Score</h2>
-            <div 
-              className="score-circle"
-              style={{ borderColor: getScoreColor(analysisResult.score) }}
+        {selectedFile && (
+          <div className="file-info">
+            <h3>Selected File:</h3>
+            <p><strong>Name:</strong> {selectedFile.name}</p>
+            <p><strong>Size:</strong> {(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+            <p><strong>Type:</strong> {selectedFile.type || 'Unknown'}</p>
+          </div>
+        )}
+        
+        <div className="upload-actions">
+          <button 
+            onClick={handleUpload}
+            disabled={!selectedFile || isUploading}
+            className="upload-button"
+          >
+            {isUploading ? 'Uploading...' : 'Upload Resume'}
+          </button>
+          
+          {selectedFile && (
+            <button 
+              onClick={resetUpload}
+              disabled={isUploading}
+              className="reset-button"
             >
-              <span className="score-number">{analysisResult.score}</span>
-              <span className="score-label">/100</span>
-            </div>
-          </div>
-
-          <div className="results-grid">
-            <div className="result-card">
-              <h3>Skills Identified</h3>
-              <div className="skills-list">
-                {analysisResult.skills.map((skill, index) => (
-                  <span key={index} className="skill-tag">{skill}</span>
-                ))}
-              </div>
-            </div>
-
-            <div className="result-card">
-              <h3>Experience Level</h3>
-              <p className="result-value">{analysisResult.experience}</p>
-            </div>
-
-            <div className="result-card">
-              <h3>Education</h3>
-              <p className="result-value">{analysisResult.education}</p>
-            </div>
-
-            <div className="result-card">
-              <h3>Key Strengths</h3>
-              <ul className="strengths-list">
-                {analysisResult.strengths.map((strength, index) => (
-                  <li key={index}>✅ {strength}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="result-card">
-              <h3>Areas for Improvement</h3>
-              <ul className="improvements-list">
-                {analysisResult.areas.map((area, index) => (
-                  <li key={index}>💡 {area}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+              Clear Selection
+            </button>
+          )}
         </div>
-      )}
+
+        {uploadStatus && (
+          <div className={`upload-status ${uploadStatus.includes('successfully') ? 'success' : uploadStatus.includes('failed') ? 'error' : 'info'}`}>
+            <span>{uploadStatus}</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
