@@ -1,194 +1,166 @@
 import React, { useState } from 'react';
-
-const styles = {
-    container: {
-        minHeight: '100vh',
-        background: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        fontFamily: 'Segoe UI, Arial, sans-serif',
-    },
-    header: {
-        fontSize: 40,
-        fontWeight: 800,
-        color: '#000DFF',
-        margin: '48px 0 32px 64px',
-        letterSpacing: 2,
-        fontFamily: 'Segoe UI, Arial, sans-serif',
-    },
-    center: {
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    card: {
-        background: '#fff',
-        borderRadius: 20,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
-        padding: 40,
-        width: 400,
-        maxWidth: '90vw',
-        transition: 'box-shadow 0.2s',
-    },
-    tabs: {
-        display: 'flex',
-        marginBottom: 32,
-        gap: 12,
-        justifyContent: 'center',
-    },
-    tab: isActive => ({
-        flex: 1,
-        padding: '14px 0',
-        cursor: 'pointer',
-        fontWeight: 600,
-        fontSize: 18,
-        color: isActive ? '#fff' : '#000DFF',
-        background: isActive
-            ? 'linear-gradient(90deg, #6B73FF 0%, #000DFF 100%)'
-            : '#f2f6ff',
-        border: 'none',
-        borderRadius: 12,
-        boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
-        outline: 'none',
-        transition: 'background 0.2s, color 0.2s',
-    }),
-    formGroup: {
-        marginBottom: 20,
-    },
-    label: {
-        display: 'block',
-        marginBottom: 8,
-        fontWeight: 500,
-        color: '#333',
-        fontSize: 15,
-    },
-
-    input: {
-        width: '100%',
-        boxSizing: 'border-box',
-        padding: '12px 14px',
-        borderRadius: 8,
-        border: '1px solid #ddd',
-        fontSize: 16,
-        marginTop: 2,
-        outline: 'none',
-        transition: 'border-color 0.2s',
-        background: '#f7f9fc',
-    },
-    button: {
-        width: '100%',
-        boxSizing: 'border-box',
-        padding: '14px',
-        borderRadius: 8,
-        border: 'none',
-        background: 'linear-gradient(90deg, #6B73FF 0%, #000DFF 100%)',
-        color: '#fff',
-        fontWeight: 700,
-        fontSize: 17,
-        cursor: 'pointer',
-        marginTop: 10,
-        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-        transition: 'background 0.2s',
-    },
-};
+import { Link } from 'react-router-dom';
+import '../css/Dashboard.css';
+import '../css/Login.css';
 
 export default function Login() {
-    const [activeTab, setActiveTab] = useState('login');
+    const [mode, setMode] = useState('login');
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
+    const [signupName, setSignupName] = useState('');
     const [signupEmail, setSignupEmail] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
-    const [signupName, setSignupName] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
+    const toggleMode = (m) => setMode(m);
+
+    const Input = ({ id, label, ...rest }) => (
+        <div className="form-group">
+            <label htmlFor={id}>{label}</label>
+            <input id={id} {...rest} className="form-input" />
+        </div>
+    );
 
     return (
-        <div style={styles.container}>
-            <div style={styles.header}>CareerOS</div>
-            <div style={styles.center}>
-                <div style={styles.card}>
-                    <div style={styles.tabs}>
-                        <button
-                            style={styles.tab(activeTab === 'login')}
-                            onClick={() => setActiveTab('login')}
-                        >
-                            Log In
-                        </button>
-                        <button
-                            style={styles.tab(activeTab === 'signup')}
-                            onClick={() => setActiveTab('signup')}
-                        >
-                            Sign Up
-                        </button>
-                    </div>
-                    {activeTab === 'login' ? (
-                        <form>
-                            <div style={styles.formGroup}>
-                                <label style={styles.label} htmlFor="loginEmail">Email</label>
+        <div className="dashboard-container max-w-2xl mx-auto">
+            <div className="auth-card animate-pop">
+                <div className="auth-tabs">
+                    <button
+                        onClick={() => toggleMode('login')}
+                        className={`auth-tab ${mode === 'login' ? 'auth-tab-active' : ''}`}
+                    >
+                        Log In
+                    </button>
+                    <button
+                        onClick={() => toggleMode('signup')}
+                        className={`auth-tab ${mode === 'signup' ? 'auth-tab-active' : ''}`}
+                    >
+                        Sign Up
+                    </button>
+                    <div
+                        className={`auth-tab-indicator ${mode === 'signup' ? 'translate-x-full' : ''}`}
+                    />
+                </div>
+
+                {mode === 'login' ? (
+                    <form className="space-y-5">
+                        <Input
+                            id="loginEmail"
+                            label="Email"
+                            type="email"
+                            autoComplete="username"
+                            value={loginEmail}
+                            onChange={e => setLoginEmail(e.target.value)}
+                            required
+                        />
+                        <div className="form-group">
+                            <label htmlFor="loginPassword">Password</label>
+                            <div className="relative">
                                 <input
-                                    style={styles.input}
-                                    id="loginEmail"
-                                    type="email"
-                                    value={loginEmail}
-                                    onChange={e => setLoginEmail(e.target.value)}
-                                    required
-                                    autoComplete="username"
-                                />
-                            </div>
-                            <div style={styles.formGroup}>
-                                <label style={styles.label} htmlFor="loginPassword">Password</label>
-                                <input
-                                    style={styles.input}
                                     id="loginPassword"
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    autoComplete="current-password"
                                     value={loginPassword}
                                     onChange={e => setLoginPassword(e.target.value)}
                                     required
-                                    autoComplete="current-password"
+                                    className="form-input pr-12"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(s => !s)}
+                                    className="pw-toggle"
+                                    aria-label="Toggle password visibility"
+                                >
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
                             </div>
-                            <button style={styles.button} type="submit">Log In</button>
-                        </form>
-                    ) : (
-                        <form>
-                            <div style={styles.formGroup}>
-                                <label style={styles.label} htmlFor="signupName">Name</label>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                            <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+                                <input type="checkbox" className="rounded border-gray-300" />
+                                <span className="text-gray-600">Remember me</span>
+                            </label>
+                            <button type="button" className="link-muted">
+                                Forgot password?
+                            </button>
+                        </div>
+                        <button type="submit" className="primary-btn w-full">
+                            Log In
+                        </button>
+                        <p className="switch-text">
+                            Need an account?{' '}
+                            <button
+                                type="button"
+                                className="link"
+                                onClick={() => toggleMode('signup')}
+                            >
+                                Sign up
+                            </button>
+                        </p>
+                    </form>
+                ) : (
+                    <form className="space-y-5">
+                        <Input
+                            id="signupName"
+                            label="Name"
+                            type="text"
+                            autoComplete="name"
+                            value={signupName}
+                            onChange={e => setSignupName(e.target.value)}
+                            required
+                        />
+                        <Input
+                            id="signupEmail"
+                            label="Email"
+                            type="email"
+                            autoComplete="username"
+                            value={signupEmail}
+                            onChange={e => setSignupEmail(e.target.value)}
+                            required
+                        />
+                        <div className="form-group">
+                            <label htmlFor="signupPassword">Password</label>
+                            <div className="relative">
                                 <input
-                                    style={styles.input}
-                                    id="signupName"
-                                    type="text"
-                                    value={signupName}
-                                    onChange={e => setSignupName(e.target.value)}
-                                    required
-                                    autoComplete="name"
-                                />
-                            </div>
-                            <div style={styles.formGroup}>
-                                <label style={styles.label} htmlFor="signupEmail">Email</label>
-                                <input
-                                    style={styles.input}
-                                    id="signupEmail"
-                                    type="email"
-                                    value={signupEmail}
-                                    onChange={e => setSignupEmail(e.target.value)}
-                                    required
-                                    autoComplete="username"
-                                />
-                            </div>
-                            <div style={styles.formGroup}>
-                                <label style={styles.label} htmlFor="signupPassword">Password</label>
-                                <input
-                                    style={styles.input}
                                     id="signupPassword"
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    autoComplete="new-password"
                                     value={signupPassword}
                                     onChange={e => setSignupPassword(e.target.value)}
                                     required
-                                    autoComplete="new-password"
+                                    className="form-input pr-12"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(s => !s)}
+                                    className="pw-toggle"
+                                    aria-label="Toggle password visibility"
+                                >
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
                             </div>
-                            <button style={styles.button} type="submit">Sign Up</button>
-                        </form>
-                    )}
+                            <p className="hint-text">Use at least 8 characters.</p>
+                        </div>
+                        <button type="submit" className="primary-btn w-full">
+                            Create Account
+                        </button>
+                        <p className="switch-text">
+                            Already have an account?{' '}
+                            <button
+                                type="button"
+                                className="link"
+                                onClick={() => toggleMode('login')}
+                            >
+                                Log in
+                            </button>
+                        </p>
+                    </form>
+                )}
+
+                <div className="mt-10 text-center">
+                    <Link to="/" className="link-muted uppercase tracking-wide text-xs">
+                        Back to Dashboard
+                    </Link>
                 </div>
             </div>
         </div>

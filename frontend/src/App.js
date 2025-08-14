@@ -1,38 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
-import {Routes, Route} from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Interview from './pages/Interview';
-import Login from './pages/Login';
-import Layout from './components/Layout';
 import ResumeAnalysis from './pages/ResumeAnalysis';
+import Login from './pages/Login';
 
 function App() {
-  return (
-    <div>
-        <div className="main-content">
+    return (
+        <Layout>
             <Routes>
-                <Route path='/' element={
-                  <Layout>
-                    <Dashboard />
-                  </Layout>
-                } />
-                <Route path='/interview' element={
-                  <Layout>
-                    <Interview />
-                  </Layout>
-                } />
-                <Route path='/resume-analysis' element={
-                  <Layout>
-                    <ResumeAnalysis />
-                  </Layout>
-                } />
-                <Route path='/login' element={<Login/>} />
+                <Route path='/' element={<Dashboard />} />
+                <Route path='/interview' element={<Interview />} />
+                <Route path='/resume-analysis' element={<ResumeAnalysis />} />
+                <Route path='/login' element={<Login />} />
             </Routes>
-        </div>
-    </div>
-    
-  );
+        </Layout>
+    );
 }
 
 export default App;
