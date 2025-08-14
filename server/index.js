@@ -6,6 +6,9 @@ import interviewRouter from './routes/interview_route.js';
 import usersRouter from './routes/users_route.js';
 
 const app = express();
+
+// Allow all origins (for development)
+app.use(cors());
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
