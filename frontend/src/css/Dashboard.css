@@ -1,0 +1,18 @@
+.dashboard-container {
+    color: #4b5563; /* gray-600 */
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .dashboard-container h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827; /* gray-900 */
+  }
+  
+  .dashboard-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }

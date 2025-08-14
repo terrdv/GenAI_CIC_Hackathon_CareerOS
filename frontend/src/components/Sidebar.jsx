@@ -1,5 +1,6 @@
 import React from 'react';
 import { BarChart3, Users } from 'lucide-react';
+import '../css/Sidebar.css'
 
 const Sidebar = ({ currentPage, setCurrentPage }) => {
   const sidebarItems = [

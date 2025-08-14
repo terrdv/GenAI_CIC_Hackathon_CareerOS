@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import '../'
 
 const Layout = ({ children }) => {
   const [currentPage, setCurrentPage] = useState('dashboard');

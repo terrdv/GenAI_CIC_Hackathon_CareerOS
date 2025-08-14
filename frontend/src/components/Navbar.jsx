@@ -1,5 +1,5 @@
 import React from 'react';
-
+import '../css/Navbar.css';
 
 const Navbar = ({ currentPage }) => {
   const getPageTitle = (page) => {
@@ -14,12 +14,8 @@ const Navbar = ({ currentPage }) => {
   };
 
   return (
-    <div className="bg-white shadow-sm border-b border-gray-200 px-8 py-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">
-          {getPageTitle(currentPage)}
-        </h2>
-      </div>
+    <div className="navbar">
+      <h2 className="navbar-title">{getPageTitle(currentPage)}</h2>
     </div>
   );
 };
