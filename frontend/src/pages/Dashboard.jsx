@@ -19,6 +19,8 @@ import {
  MapPin,
  DollarSign
 } from 'lucide-react';
+import JobCard from '../components/JobCard';
+import SkillCard from '../components/SkillCard';
 import '../css/Dashboard.css';
 
 
@@ -94,20 +96,12 @@ const Dashboard = () => {
        </h2>
        <div className="jobs-grid">
          {recommendedJobs.map((job, index) => (
-           <div
+           <JobCard 
              key={job.id}
-             className={`job-card ${animateCards ? 'animate-in' : ''}`}
-             style={{ animationDelay: `${index * 100}ms` }}
-           >
-             <div className="job-header">
-               <div className={`job-icon ${job.color}`}>
-                 <job.icon size={20} />
-               </div>
-             </div>
-             <div className="job-content">
-               <h3 className="job-title">{job.title}</h3>
-             </div>
-           </div>
+             job={job}
+             index={index}
+             animateCards={animateCards}
+           />
          ))}
        </div>
      </div>
@@ -121,20 +115,12 @@ const Dashboard = () => {
        </h2>
        <div className="skills-grid">
          {skillsList.map((skill, index) => (
-           <div
+           <SkillCard 
              key={skill.id}
-             className={`skill-card ${animateCards ? 'animate-in' : ''}`}
-             style={{ animationDelay: `${400 + index * 100}ms` }}
-           >
-             <div className="skill-header">
-               <div className={`skill-icon ${skill.color}`}>
-                 <skill.icon size={20} />
-               </div>
-               <div className="skill-info">
-                 <h3 className="skill-name">{skill.name}</h3>
-               </div>
-             </div>
-           </div>
+             skill={skill}
+             index={index}
+             animateCards={animateCards}
+           />
          ))}
        </div>
      </div>
