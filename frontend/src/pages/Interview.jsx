@@ -1,5 +1,14 @@
-// src/Interview.js
-import React from 'react';
-export default function Interview() {
-    return <div>Interview Page</div>;
+
+
+
+function Interview() {
+    return (
+        <div>
+            <h1>hi</h1>
+        </div>
+    )
 }
+
+
+
+export default Interview
