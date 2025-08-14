@@ -5,8 +5,8 @@ import {
     setSessionQuestions,
     getSessionAnswers,
     setSessionAnswers
-  } from '../stores/session.store.js';
-  import { llmGenerateQuestions } from '../services/interview.service.js';
+  } from '../stores/session_store.js';
+  import { llmGenerateQuestions } from '../services/interview_service.js';
   
   export async function startInterview(req, res) {
     try {

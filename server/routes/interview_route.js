@@ -4,7 +4,7 @@ import {
   currentQuestion,
   submitAnswer,
   getReport
-} from '../controllers/interview.controller.js';
+} from '../controllers/interview_controller.js';
 
 const router = Router();
 
