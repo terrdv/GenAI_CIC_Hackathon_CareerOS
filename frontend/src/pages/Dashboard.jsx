@@ -79,7 +79,7 @@ const Dashboard = () => {
      <div className="dashboard-hero">
        <div className="hero-content">
          <h1 className="hero-title">
-           Welcome back to <span className="text-gradient">CareerOS</span>! 🚀
+           Welcome back to <span className="text-gradient">careerOS</span>! 🚀
          </h1>
          <p className="hero-subtitle">
            Your AI-powered career development companion!
