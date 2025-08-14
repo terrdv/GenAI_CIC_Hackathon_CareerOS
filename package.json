@@ -1,0 +1,14 @@
+{
+  "name": "genai_cic_hackathon_careeros",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "dependencies": {
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.0"
+  }
+}
