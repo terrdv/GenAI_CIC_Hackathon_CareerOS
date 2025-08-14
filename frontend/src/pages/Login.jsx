@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Dashboard.css';
 import '../css/Login.css';
-
+import { supabase } from '../supabase';
+        
 const Input = React.memo(function Input({ id, label, ...rest }) {
     return (
         <div className="form-group">
@@ -20,6 +21,39 @@ export default function Login() {
     const [signupEmail, setSignupEmail] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
+    // Handle login
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const { error } = await supabase.auth.signInWithPassword({
+            email: loginEmail,
+            password: loginPassword,
+        });
+        if (error) {
+            alert('Login failed: ' + error.message);
+        } else {
+            window.location.href = '/'; // Redirect or update state as needed
+        }
+    };
+
+    // Handle sign up
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        const { error } = await supabase.auth.signUp({
+            email: signupEmail,
+            password: signupPassword,
+            options: {
+                data: { name: signupName }
+            }
+        });
+        
+        if (error) {
+            alert('Sign up failed: ' + error.message);
+        } else {
+            alert('Sign up successful!');
+            setMode('login');
+        }
+    };
 
     const heading = mode === 'login' ? 'Log In' : 'Create Account';
 
@@ -62,17 +96,7 @@ export default function Login() {
                             </div>
                         </div>
 
-                        <div className="login-inline-row">
-                            <label className="inline-flex items-center gap-2 cursor-pointer select-none remember-wrap">
-                                <input type="checkbox" className="rounded border-gray-300" />
-                                <span className="text-gray-600">Remember me</span>
-                            </label>
-                            <button type="button" className="action-btn action-btn-compact" aria-label="Forgot password">
-                                Forgot password
-                            </button>
-                        </div>
-
-                        <button type="submit" className="primary-btn w-full">
+                        <button type="submit" className="primary-btn w-full" onClick={handleLogin}>
                             Sign In
                         </button>
 
@@ -81,7 +105,7 @@ export default function Login() {
                             <button
                                 type="button"
                                 className="action-btn action-btn-compact"
-                                onClick={() => setMode('signup')}
+                                onClick={() => {setMode('signup')}}
                             >
                                 Sign Up
                             </button>
@@ -128,10 +152,10 @@ export default function Login() {
                                     {showPassword ? 'Hide' : 'Show'}
                                 </button>
                             </div>
-                            <p className="hint-text">Use at least 8 characters.</p>
+                            <p className="hint-text">Use at least 6 characters.</p>
                         </div>
 
-                        <button type="submit" className="primary-btn w-full">
+                        <button type="submit" className="primary-btn w-full" onClick={handleSignUp}>
                             Create Account
                         </button>
 

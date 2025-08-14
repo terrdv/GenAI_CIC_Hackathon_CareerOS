@@ -8,15 +8,15 @@ const router = Router();
 // POST /analyzeResume: expects { session_token } in body
 router.get('/analyzeResume', async (req, res) => {
     try {
-        // const { session_token } = req.body;
-        // if (!session_token) return res.status(400).json({ error: 'Missing session_token' });
+        const { session_token } = req.body;
+        if (!session_token) return res.status(400).json({ error: 'Missing session_token' });
 
-        // const { data: userData, error: userError } = await supabase.auth.getUser(session_token);
-        // if (userError || !userData?.user) {
-        //     return res.status(401).json({ error: 'Invalid session token' });
-        // }
-        // const userId = userData.user.id;
-        const { userId } = req.body;
+        const { data: userData, error: userError } = await supabase.auth.getUser(session_token);
+        if (userError || !userData?.user) {
+            return res.status(401).json({ error: 'Invalid session token' });
+        }
+        const userId = userData.user.id;
+        // const { userId } = req.body;
 
         console.log(userId);
 
@@ -24,7 +24,7 @@ router.get('/analyzeResume', async (req, res) => {
         const { data: pdfBlob, error: urlError } = await supabase
             .storage
             .from('resume')
-            .download(userId + '.pdf');
+            .download(userId + '/resume.pdf');
         
         if (urlError) {
             return res.status(404).json({ error: 'Resume file not found in storage' });
@@ -33,7 +33,27 @@ router.get('/analyzeResume', async (req, res) => {
         const arrayBuffer = Buffer.from(await pdfBlob.arrayBuffer());
 
         // Get AI feedback from invokeModel
-        const feedback = await invokeModel('Provide feedback for my resume', arrayBuffer);
+        const feedback = await invokeModel('Provide feedback for my resume. Be specific and reference examples from the resume file.', arrayBuffer);
+        res.json({ feedback });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.get('/ask', async (req, res) => {
+    try {
+        // const { session_token } = req.body;
+        // if (!session_token) return res.status(400).json({ error: 'Missing session_token' });
+
+        // const { data: userData, error: userError } = await supabase.auth.getUser(session_token);
+        // if (userError || !userData?.user) {
+        //     return res.status(401).json({ error: 'Invalid session token' });
+        // }
+        // const userId = userData.user.id;
+        const { text } = req.body;
+
+        // Get AI feedback from invokeModel
+        const feedback = await invokeModel(text);
         res.json({ feedback });
     } catch (error) {
         res.status(500).json({ error: error.message });

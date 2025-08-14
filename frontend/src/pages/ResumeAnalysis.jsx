@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import '../css/ResumeAnalysis.css';
+import { supabase } from '../supabase';
 
 function ResumeAnalysis() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -27,11 +28,13 @@ function ResumeAnalysis() {
         try {
             const formData = new FormData();
             formData.append('resume', selectedFile);
-            // TODO: replace with real API call
-            await new Promise(r => setTimeout(r, 1200));
+            const { data: {user}, error1} = await supabase.auth.getUser();
+            const userId = user?.id;
+            const { data, error2 } = await supabase.storage.from('resume').upload(`${userId}/resume.pdf`, selectedFile);
+            if (error1 || error2) throw error1 || error2;
             setUploadStatus('Upload successful.');
         } catch (err) {
-            setUploadStatus('Upload failed.');
+            setUploadStatus('Upload failed.' + err.message);
         } finally {
             setIsUploading(false);
         }
