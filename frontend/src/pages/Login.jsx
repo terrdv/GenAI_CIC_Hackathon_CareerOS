@@ -3,6 +3,15 @@ import { Link } from 'react-router-dom';
 import '../css/Dashboard.css';
 import '../css/Login.css';
 
+const Input = React.memo(function Input({ id, label, ...rest }) {
+    return (
+        <div className="form-group">
+            <label htmlFor={id}>{label}</label>
+            <input id={id} {...rest} className="form-input" />
+        </div>
+    );
+});
+
 export default function Login() {
     const [mode, setMode] = useState('login');
     const [loginEmail, setLoginEmail] = useState('');
@@ -12,35 +21,12 @@ export default function Login() {
     const [signupPassword, setSignupPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const toggleMode = (m) => setMode(m);
-
-    const Input = ({ id, label, ...rest }) => (
-        <div className="form-group">
-            <label htmlFor={id}>{label}</label>
-            <input id={id} {...rest} className="form-input" />
-        </div>
-    );
+    const heading = mode === 'login' ? 'Log In' : 'Create Account';
 
     return (
         <div className="dashboard-container max-w-2xl mx-auto">
             <div className="auth-card animate-pop">
-                <div className="auth-tabs">
-                    <button
-                        onClick={() => toggleMode('login')}
-                        className={`auth-tab ${mode === 'login' ? 'auth-tab-active' : ''}`}
-                    >
-                        Log In
-                    </button>
-                    <button
-                        onClick={() => toggleMode('signup')}
-                        className={`auth-tab ${mode === 'signup' ? 'auth-tab-active' : ''}`}
-                    >
-                        Sign Up
-                    </button>
-                    <div
-                        className={`auth-tab-indicator ${mode === 'signup' ? 'translate-x-full' : ''}`}
-                    />
-                </div>
+                <h2 className="auth-heading">{heading}</h2>
 
                 {mode === 'login' ? (
                     <form className="space-y-5">
@@ -75,28 +61,31 @@ export default function Login() {
                                 </button>
                             </div>
                         </div>
-                        <div className="flex items-center justify-between text-sm">
-                            <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+
+                        <div className="login-inline-row">
+                            <label className="inline-flex items-center gap-2 cursor-pointer select-none remember-wrap">
                                 <input type="checkbox" className="rounded border-gray-300" />
                                 <span className="text-gray-600">Remember me</span>
                             </label>
-                            <button type="button" className="link-muted">
-                                Forgot password?
+                            <button type="button" className="action-btn action-btn-compact" aria-label="Forgot password">
+                                Forgot password
                             </button>
                         </div>
+
                         <button type="submit" className="primary-btn w-full">
-                            Log In
+                            Sign In
                         </button>
-                        <p className="switch-text">
-                            Need an account?{' '}
+
+                        <div className="switch-block">
+                            <span className="switch-text-label">Need an account?</span>
                             <button
                                 type="button"
-                                className="link"
-                                onClick={() => toggleMode('signup')}
+                                className="action-btn action-btn-compact"
+                                onClick={() => setMode('signup')}
                             >
-                                Sign up
+                                Sign Up
                             </button>
-                        </p>
+                        </div>
                     </form>
                 ) : (
                     <form className="space-y-5">
@@ -141,19 +130,21 @@ export default function Login() {
                             </div>
                             <p className="hint-text">Use at least 8 characters.</p>
                         </div>
+
                         <button type="submit" className="primary-btn w-full">
                             Create Account
                         </button>
-                        <p className="switch-text">
-                            Already have an account?{' '}
+
+                        <div className="switch-block">
+                            <span className="switch-text-label">Already have an account?</span>
                             <button
                                 type="button"
-                                className="link"
-                                onClick={() => toggleMode('login')}
+                                className="action-btn action-btn-compact"
+                                onClick={() => setMode('login')}
                             >
-                                Log in
+                                Sign In
                             </button>
-                        </p>
+                        </div>
                     </form>
                 )}
 
