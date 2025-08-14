@@ -2,19 +2,19 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
-import '../'
+import '../css/Layout.css';
 
 const Layout = ({ children }) => {
   const [currentPage, setCurrentPage] = useState('dashboard');
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="layout">
       <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       
-      <div className="flex-1 flex flex-col">
+      <div className="layout-main">
         <Navbar currentPage={currentPage} />
         
-        <div className="flex-1 p-8">
+        <div className="layout-content">
           {children}
         </div>
       </div>

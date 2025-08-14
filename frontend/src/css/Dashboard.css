@@ -1,18 +1,58 @@
 .dashboard-container {
-    color: #4b5563; /* gray-600 */
-    font-size: 1rem;
-    line-height: 1.5;
+  color: #4b5563; /* gray-600 */
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.dashboard-container h2 {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700; /* font-bold */
+  color: #111827; /* gray-900 */
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.dashboard-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb; /* gray-200 */
+  transition: all 0.2s ease-in-out;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card h3 {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600; /* font-semibold */
+  color: #111827; /* gray-900 */
+  margin-bottom: 0.75rem;
+}
+
+.dashboard-card p {
+  color: #6b7280; /* gray-500 */
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
   .dashboard-container h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #111827; /* gray-900 */
+    font-size: 1.5rem; /* text-2xl */
   }
-  
-  .dashboard-card {
-    background-color: white;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  }
+}
