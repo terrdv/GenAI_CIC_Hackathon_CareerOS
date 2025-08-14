@@ -5,7 +5,7 @@ const sessionQuestions = new Map();   // sessionId -> [questions]
 const sessionAnswers = new Map();     // sessionId -> [answers]
 
 export function newSession(config) {
-  const sessionId = randomUUID();
+  const sessionId = "1";
   const session = {
     sessionId,
     userId: 'anon',
@@ -15,9 +15,8 @@ export function newSession(config) {
       types: config.types || [],
       company: config.company || '',
       role: config.role || '',
-      seniority: config.seniority || 'intern',
-      count: Number(config.count) || 6,
-      language: config.language || 'en'
+      level: config.level || 'intern',
+      questionCount: Number(config.questionCount) || 6,
     },
     currentIndex: 0
   };
@@ -33,3 +32,18 @@ export const setSessionQuestions = (id, qs) => sessionQuestions.set(id, qs);
 
 export const getSessionAnswers = (id) => sessionAnswers.get(id) || [];
 export const setSessionAnswers = (id, answers) => sessionAnswers.set(id, answers);
+
+export function getFullSession(sessionId) {
+    const session = getSession(sessionId);
+    if (!session) return null;
+  
+    const questions = getSessionQuestions(sessionId);
+    const answers = getSessionAnswers(sessionId);
+  
+    return {
+      ...session,
+      questions,
+      answers
+    };
+  }
+  
