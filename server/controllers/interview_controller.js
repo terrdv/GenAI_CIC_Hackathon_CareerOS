@@ -8,6 +8,7 @@ import {
     getFullSession
 } from '../stores/session_store.js';
 import { llmGenerateQuestions } from '../services/interview_service.js';
+import { generateFeedbackWithAI } from '../lib/FeedbackAI.js';
 
 export async function testing(req, res) {
     res.json({ message: "charle is the goat" });
@@ -25,7 +26,8 @@ export async function startInterview(req, res) {
 
         const session = newSession({ types, company, role, level, questionCount });
         
-        const gen = await llmGenerateQuestions(session.config);
+        const genRaw = await llmGenerateQuestions(session.config);
+        const gen = JSON.parse(genRaw);
         if (!gen.questions?.length) return res.status(500).json({ error: 'no_questions_generated' });
 
         setSessionQuestions(session.sessionId, gen.questions);
@@ -134,7 +136,7 @@ export function fullSessionHandler(req, res) {
     res.json(fullSession);
 }
 
-export function getReport(req, res) {
+export async function getReport(req, res) {
     const { sessionId } = req.params;
     const s = getSession(sessionId);
     if (!s) return res.status(404).json({ error: 'session_not_found' });
@@ -142,13 +144,20 @@ export function getReport(req, res) {
     const qs = getSessionQuestions(sessionId);
     const ans = getSessionAnswers(sessionId);
 
-    const perQuestion = ans.map((a) => {
-        const qObj = qs[a.index];
-        return {
-            q: qObj?.text?? '(question not found)',
-            answer: a.transcript
-        };
-    });
+    const perQuestion = await Promise.all(
+        ans.map(async (a) => {
+            const qObj = qs[a.index];
+            const result = await generateFeedbackWithAI({
+                question: qObj?.text ?? '(question not found)',
+                answer: a.transcript
+            });
+            return {
+                q: qObj?.text ?? '(question not found)',
+                answer: a.transcript,
+                feedback: result
+            };
+        })
+    );
 
     res.json({ sessionId, perQuestion });
 }
