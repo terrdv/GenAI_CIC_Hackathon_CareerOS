@@ -35,8 +35,8 @@ router.post('/analyzeResume', async (req, res) => {
         // Get AI feedback from invokeModel
         const feedback = await invokeModel('Provide feedback for my resume. Be specific and reference examples from the resume file. Format the response as HTML.', arrayBuffer);
 
-        const skillsJson = await invokeModel('Extract the skills mentioned in the resume. Format it as a stringified JSON array that is immediately parseable, don\'t add extra text.', arrayBuffer);
-        const jobsJson = await invokeModel('Extract the jobs that I am most competitive for based on the resume. Format it as a stringified JSON array that is immediately parseable, don\'t add extra text.', arrayBuffer);
+        const skillsJson = await invokeModel('Extract the skills mentioned in the resume. Format it as a stringified JSON array of strings that is immediately parseable, don\'t add extra text.', arrayBuffer);
+        const jobsJson = await invokeModel('Extract the jobs that I am most competitive and adjacent for based on the resume, not just the ones I already have. Format it as a stringified JSON array of strings that is immediately parseable, don\'t add extra text.', arrayBuffer);
 
         let skills, jobs;
         try {
@@ -61,7 +61,7 @@ router.post('/analyzeResume', async (req, res) => {
             return res.status(500).json({ error: updateError.message });
         }
 
-        res.json({ feedback, jobs, skills });
+        res.json({ feedback });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
